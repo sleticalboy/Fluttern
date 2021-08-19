@@ -1,8 +1,8 @@
 package com.binlee.flutter
 
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import com.binlee.flutter.databinding.ActivityMainBinding
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.android.FlutterActivityLaunchConfigs
 
@@ -10,8 +10,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        findViewById<View>(R.id.btn_start_flutter).setOnClickListener {
+        val binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        binding.btnStartFlutter.setOnClickListener {
             val intent = FlutterActivity.CachedEngineIntentBuilder(
                 com.binlee.flutter.FlutterActivity::class.java,
                 "flutter_engine_id"/*使用缓存的 FlutterEngine*/

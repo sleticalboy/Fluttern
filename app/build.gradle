@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -32,14 +33,23 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    buildFeatures {
+        viewBinding true
+        dataBinding true
+    }
+}
+
+Properties loadLocalProperties() {
+    File localPropertiesFile = new File(rootProject.rootDir, "local.properties")
+    Properties props = new Properties()
+    localPropertiesFile.withReader("UTF-8") { reader -> props.load(reader) }
+    return props
 }
 
 // 获取 flutter engine 版本号
 String getEngineVersion() {
     // 1. 加载 local.properties 文件
-    File localPropertiesFile = new File(rootProject.rootDir, "local.properties")
-    Properties props = new Properties()
-    localPropertiesFile.withReader("UTF-8") { reader -> props.load(reader) }
+    Properties props = loadLocalProperties()
     // 2. 获取 flutter sdk 路径
     String flutterRoot = props.getProperty('flutter.sdk')
     assert flutterRoot != null, "flutter.sdk not set in local.properties"
@@ -60,8 +70,8 @@ dependencies {
     implementation 'com.google.android.material:material:1.3.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
     // 引入 flutter
     // implementation("io.flutter:flutter_embedding_release:$engineVersion")
