@@ -1,10 +1,10 @@
 package com.binlee.flutter
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.faceunity.flutter.R
+import io.flutter.embedding.android.FlutterActivity
+import io.flutter.embedding.android.FlutterActivityLaunchConfigs
 
 class MainActivity : AppCompatActivity() {
 
@@ -12,7 +12,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         findViewById<View>(R.id.btn_start_flutter).setOnClickListener {
-            startActivity(Intent(this, FlutterActivity::class.java))
+            val intent = FlutterActivity.CachedEngineIntentBuilder(
+                com.binlee.flutter.FlutterActivity::class.java,
+                "flutter_engine_id"/*使用缓存的 FlutterEngine*/
+            )
+                .backgroundMode(FlutterActivityLaunchConfigs.BackgroundMode.transparent)
+                .build(this)
+            intent.putExtra("_start_time", System.currentTimeMillis())
+            startActivity(intent)
         }
     }
 }
