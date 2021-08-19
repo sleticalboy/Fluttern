@@ -1,0 +1,15 @@
+import org.gradle.api.initialization.resolve.RepositoriesMode
+
+dependencyResolutionManagement {
+    // repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositoriesMode.set(RepositoriesMode.PREFER_PROJECT)
+    repositories {
+        google()
+        mavenCentral()
+        maven { url 'https://storage.flutter-io.cn/download.flutter.io' }
+        // Warning: this repository is going to shut down soon
+        jcenter()
+    }
+}
+rootProject.name = "FlutterDemo"
+include ':app'

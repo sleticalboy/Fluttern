@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">FlutterDemo</string>
+    <string name="go_to_flutter">open flutter view</string>
+</resources>
