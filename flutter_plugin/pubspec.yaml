@@ -83,5 +83,4 @@ flutter:
   # identifiers, which may be completely independent or the same as these.
   module:
     androidX: true
-    androidPackage: com.faceunity.flutter_plugin
-    iosBundleIdentifier: com.faceunity.flutterPlugin
+    androidPackage: com.binlee.flutter.plugin

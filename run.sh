@@ -14,6 +14,20 @@ function kill_gradle_daemon_process() {
   done
 }
 
+# 使用 Android studio 自带的 jdk 进行编译
+function export_java_home() {
+  javac_cmd=$(locate javac | grep android-studio/jre)
+  # /xxx/android-studio/jre/bin/javac
+  echo "javac is: $javac_cmd"
+  if [ -z $javac_cmd ]; then
+      echo "android studio is not installed..."
+      exit 1
+  fi
+  # 字符串替换替换
+  #${string/substring/replacement}
+  export JAVA_HOME=${javac_cmd/"/bin/javac"/""}
+}
+
 echo 'auto build start...'
 
 # 清除编译缓存
@@ -26,12 +40,10 @@ cd flutter_plugin && flutter build aar -v && cd -
 echo -e "\nout aars:\n`find flutter_plugin -name *.aar`"
 
 # 将 aar 拷贝到 app/libs 下
-cp flutter_plugin/build/host/outputs/repo/com/faceunity/flutter_plugin/flutter_debug/1.0/flutter_debug-1.0.aar app/libs
-
-export JAVA_HOME=/home/binlee/opt/android/android-studio/jre/
+cp flutter_plugin/build/host/outputs/repo/com/binlee/flutter/plugin/flutter_debug/1.0/flutter_debug-1.0.aar app/libs
 
 # 编译 apk
-./gradlew :app:assemble --debug -s
+./gradlew assemble --debug -s
 
 # 查看编译好的apk
 echo -e "\nout apks: \n`find app -name *.apk`"

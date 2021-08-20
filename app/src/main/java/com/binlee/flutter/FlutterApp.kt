@@ -4,11 +4,9 @@ import android.annotation.SuppressLint
 import android.app.Application
 import android.os.Looper
 import android.util.Log
-import io.flutter.FlutterInjector
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.embedding.engine.FlutterEngineCache
 import io.flutter.embedding.engine.dart.DartExecutor
-import kotlin.concurrent.thread
 
 /**
  * Created on 2021/8/19
