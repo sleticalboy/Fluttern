@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_plugin/flutter_view.dart';
 
 void main() => runApp(const MyApp());
+
+@pragma("vm:entry-point")
+void show() {
+  runApp(const FlutterViewApp());
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -19,7 +25,7 @@ class MyApp extends StatelessWidget {
         // "hot reload" (press "r" in the console where you ran "flutter run",
         // or press Run > Flutter Hot Reload in a Flutter IDE). Notice that the
         // counter didn't reset back to zero; the application is not restarted.
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.green,
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );

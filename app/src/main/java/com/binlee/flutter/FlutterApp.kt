@@ -3,7 +3,10 @@ package com.binlee.flutter
 import android.annotation.SuppressLint
 import android.app.Application
 import android.os.Looper
+import android.text.TextUtils
 import android.util.Log
+import android.widget.TextView
+import io.flutter.FlutterInjector
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.embedding.engine.FlutterEngineCache
 import io.flutter.embedding.engine.dart.DartExecutor
@@ -32,9 +35,16 @@ class FlutterApp : Application() {
             Log.d(TAG, "onCreate() called ${FlutterEngineCache.getInstance()}")
             FlutterEngineCache.getInstance().put("flutter_engine_id", engine)
             engine.navigationChannel.setInitialRoute("binlee/route/index")
-            engine.dartExecutor.executeDartEntrypoint(DartExecutor.DartEntrypoint.createDefault())
+            engine.dartExecutor.executeDartEntrypoint(getDartEntryPoint("main"))
             false
         }
+    }
+
+    private fun getDartEntryPoint(name: String?): DartExecutor.DartEntrypoint {
+        if (TextUtils.isEmpty(name)) return DartExecutor.DartEntrypoint.createDefault()
+        return DartExecutor.DartEntrypoint(
+            FlutterInjector.instance().flutterLoader().findAppBundlePath(), name!!
+        )
     }
 
     companion object {
