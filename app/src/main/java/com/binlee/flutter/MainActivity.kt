@@ -11,6 +11,8 @@ import io.flutter.embedding.android.FlutterView
 import io.flutter.embedding.android.RenderMode
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.embedding.engine.dart.DartExecutor
+import io.flutter.plugin.common.BasicMessageChannel
+import io.flutter.plugin.common.StringCodec
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,6 +24,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding!!.root)
+
+        // 隐藏工具栏
+        supportActionBar?.hide()
+
         binding!!.btnStartFlutterActivity.setOnClickListener { startFlutterActivity() }
         binding!!.btnStartFlutterFragment.setOnClickListener { startFlutterFragment() }
         binding!!.btnAddFlutterView.setOnClickListener { addFlutterView() }
@@ -76,6 +82,12 @@ class MainActivity : AppCompatActivity() {
         transaction.commit()
     }
 
+    private var counter = 0
+    private val CHANNEL = "increment"
+    private val EMPTY_MESSAGE = ""
+    private val PING = "ping"
+    private var messageChannel: BasicMessageChannel<String>? = null
+
     // 添加一个 flutter view
     private fun addFlutterView() {
         if (viewEngine == null) {
@@ -83,11 +95,23 @@ class MainActivity : AppCompatActivity() {
             // 只要 FlutterJNI 不被销毁，就不能再次执行新的 dart entry point
             // 因此这里新创建一个 FlutterEngine，但是首次速度会比较慢
             val engine = FlutterEngine(this)
-            engine.dartExecutor.executeDartEntrypoint(DartExecutor.DartEntrypoint(
-                FlutterInjector.instance().flutterLoader().findAppBundlePath(),
-                "show"
-            ))
+            engine.dartExecutor.executeDartEntrypoint(
+                DartExecutor.DartEntrypoint(
+                    FlutterInjector.instance().flutterLoader().findAppBundlePath(),
+                    "show"
+                )
+            )
             viewEngine = FlutterViewEngine(engine)
+            messageChannel = BasicMessageChannel(engine.dartExecutor, CHANNEL, StringCodec.INSTANCE)
+            messageChannel?.setMessageHandler(object : BasicMessageChannel.MessageHandler<String?> {
+                override fun onMessage(
+                    message: String?,
+                    reply: BasicMessageChannel.Reply<String?>
+                ) {
+                    onFlutterIncrement()
+                    reply.reply(EMPTY_MESSAGE)
+                }
+            })
         }
         viewEngine?.attachActivity(this)
         // 实例化一个 flutter view 并添加到容器中
@@ -96,6 +120,19 @@ class MainActivity : AppCompatActivity() {
             binding!!.flContainer.addView(flutterView)
         }
         viewEngine?.attachView(flutterView!!)
+
+        binding!!.fabAdd.setOnClickListener { sendAndroidIncrement() }
+    }
+
+    private fun sendAndroidIncrement() {
+        messageChannel!!.send(PING)
+    }
+
+    private fun onFlutterIncrement() {
+        counter++
+        val value =
+            "counter from dart " + counter.toString() + if (counter == 1) " time" else " times"
+        binding!!.dartCounter.text = value
     }
 
     override fun onRequestPermissionsResult(

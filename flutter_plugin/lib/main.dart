@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_plugin/flutter_view.dart';
 
 void main() {
@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
 class RandomWordList extends StatefulWidget {
   @override
   _RandomWordList createState() {
-    return new _RandomWordList();
+    return _RandomWordList();
   }
 }
 
@@ -44,9 +44,9 @@ class _RandomWordList extends State<RandomWordList> {
     // return _buildSuggestions();
     return Scaffold(
       appBar: AppBar(
-        title: Text('Startup Name Generator'),
+        title: const Text('Startup Name Generator'),
         actions: [
-          IconButton(onPressed: _pushSaved, icon: Icon(Icons.list)),
+          IconButton(onPressed: _pushSaved, icon: const Icon(Icons.list)),
         ],
       ),
       body: _buildSuggestions(),
