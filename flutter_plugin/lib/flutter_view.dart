@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
@@ -24,6 +26,7 @@ class _FlutterViewAppState extends State<FlutterViewApp> {
       BasicMessageChannel(_channel, StringCodec());
 
   int _counter = 0;
+  List<BottomNavigationBarItem>? _items;
 
   @override
   void initState() {
@@ -35,10 +38,12 @@ class _FlutterViewAppState extends State<FlutterViewApp> {
     setState(() {
       _counter++;
     });
+    print('receive native message $message');
     return _emptyMessage;
   }
 
   void _sendFlutterIncrement() {
+    print('send dart message to native $_pong');
     platform.send(_pong);
   }
 
@@ -57,7 +62,7 @@ class _FlutterViewAppState extends State<FlutterViewApp> {
         ),
         body: Center(
           child: Text(
-            "FlutterView clicked $_counter time${_counter == 1 ? '' : 's'}",
+            "counter from native $_counter time${_counter == 1 ? '' : 's'}",
             style: const TextStyle(color: Colors.black, fontSize: 17.0),
           ),
         ),
@@ -66,20 +71,30 @@ class _FlutterViewAppState extends State<FlutterViewApp> {
           child: const Icon(Icons.add),
         ),
         bottomNavigationBar: BottomNavigationBar(
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.chat),
-              label: "聊天",
-            ),
-            BottomNavigationBarItem(icon: Icon(Icons.contacts), label: "联系人"),
-            BottomNavigationBarItem(icon: Icon(Icons.circle), label: "朋友圈"),
-            BottomNavigationBarItem(icon: Icon(Icons.settings), label: "设置"),
-          ],
+          items: initNavItems(),
           selectedItemColor: Colors.blue,
           unselectedItemColor: Colors.black,
           backgroundColor: Colors.blue,
+          onTap: _onNavItemClicked,
         ),
       ),
+      debugShowCheckedModeBanner: false,
     );
+  }
+
+  List<BottomNavigationBarItem> initNavItems() {
+    return _items ??= const <BottomNavigationBarItem>[
+      BottomNavigationBarItem(
+        icon: Icon(Icons.chat),
+        label: "聊天",
+      ),
+      BottomNavigationBarItem(icon: Icon(Icons.contacts), label: "联系人"),
+      BottomNavigationBarItem(icon: Icon(Icons.circle), label: "朋友圈"),
+      BottomNavigationBarItem(icon: Icon(Icons.settings), label: "设置"),
+    ];
+  }
+
+  void _onNavItemClicked(int index) {
+    print("onNavItemClicked() index: $index, ${_items?[index].label}");
   }
 }

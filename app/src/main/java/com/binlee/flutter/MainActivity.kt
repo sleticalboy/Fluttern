@@ -83,9 +83,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private var counter = 0
-    private val CHANNEL = "increment"
-    private val EMPTY_MESSAGE = ""
-    private val PING = "ping"
     private var messageChannel: BasicMessageChannel<String>? = null
 
     // 添加一个 flutter view
@@ -103,15 +100,10 @@ class MainActivity : AppCompatActivity() {
             )
             viewEngine = FlutterViewEngine(engine)
             messageChannel = BasicMessageChannel(engine.dartExecutor, CHANNEL, StringCodec.INSTANCE)
-            messageChannel?.setMessageHandler(object : BasicMessageChannel.MessageHandler<String?> {
-                override fun onMessage(
-                    message: String?,
-                    reply: BasicMessageChannel.Reply<String?>
-                ) {
-                    onFlutterIncrement()
-                    reply.reply(EMPTY_MESSAGE)
-                }
-            })
+            messageChannel?.setMessageHandler { _, reply ->
+                onFlutterIncrement()
+                reply.reply(EMPTY_MESSAGE)
+            }
         }
         viewEngine?.attachActivity(this)
         // 实例化一个 flutter view 并添加到容器中
@@ -155,6 +147,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
-        private const val TAG = "MainActivity"
+        private const val CHANNEL = "increment"
+        private const val EMPTY_MESSAGE = ""
+        private const val PING = "ping"
     }
 }

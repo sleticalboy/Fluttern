@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_plugin/flutter_view.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 // 自定义入口函数，但是 main() 函数必须保留
@@ -11,6 +11,8 @@ void main() {
 void show() => runApp(const FlutterViewApp());
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -20,7 +22,7 @@ class MyApp extends StatelessWidget {
         // 不显示 app bar
         appBar: PreferredSize(
             child: AppBar(), preferredSize: const Size.fromHeight(0)),
-        body: RandomWordList(),
+        body: const RandomWordList(),
       ),
       debugShowCheckedModeBanner: false,
     );
@@ -28,6 +30,8 @@ class MyApp extends StatelessWidget {
 }
 
 class RandomWordList extends StatefulWidget {
+  const RandomWordList({Key? key}) : super(key: key);
+
   @override
   _RandomWordList createState() {
     return _RandomWordList();
