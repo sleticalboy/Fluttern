@@ -40,6 +40,7 @@ class RandomWordList extends StatefulWidget {
 
 class _RandomWordList extends State<RandomWordList> {
   final _suggestions = <WordPair>[];
+  // 选中的 item
   final _saved = <WordPair>{};
   final _biggerFont = const TextStyle(fontSize: 18.0);
 
@@ -94,6 +95,7 @@ class _RandomWordList extends State<RandomWordList> {
     );
   }
 
+  // 路由跳转
   void _pushSaved() {
     Navigator.of(context).push(
       MaterialPageRoute<void>(
