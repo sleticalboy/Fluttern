@@ -22,7 +22,7 @@ class _FlutterViewAppState extends State<FlutterViewApp> {
   static const String _pong = "pong";
   static const String _emptyMessage = "";
   static const BasicMessageChannel<String?> platform =
-      BasicMessageChannel(_channel, StringCodec());
+  BasicMessageChannel(_channel, StringCodec());
 
   int _counter = 0;
   List<BottomNavigationBarItem>? _items;
@@ -103,38 +103,42 @@ class _FlutterViewAppState extends State<FlutterViewApp> {
     if (index == 0) {
       // 主页
       route = MaterialPageRoute(
-          builder: (context) => const Center(
-                  child: Text(
+          builder: (context) =>
+          const Center(
+              child: Text(
                 "这是主页",
                 textDirection: TextDirection.ltr,
               )));
     } else if (index == 1) {
       // 联系人
       route = MaterialPageRoute(
-          builder: (context) => const Center(
-                child: Text(
-                  "这是联系人",
-                  textDirection: TextDirection.ltr,
-                ),
-              ));
+          builder: (context) =>
+          const Center(
+            child: Text(
+              "这是联系人",
+              textDirection: TextDirection.ltr,
+            ),
+          ));
     } else if (index == 2) {
       // 朋友圈
       route = MaterialPageRoute(
-          builder: (context) => const Center(
-                child: Text(
-                  "这是朋友圈",
-                  textDirection: TextDirection.ltr,
-                ),
-              ));
+          builder: (context) =>
+          const Center(
+            child: Text(
+              "这是朋友圈",
+              textDirection: TextDirection.ltr,
+            ),
+          ));
     } else {
       // 设置
       route = MaterialPageRoute(
-          builder: (context) => const Center(
-                child: Text(
-                  "这是设置",
-                  textDirection: TextDirection.ltr,
-                ),
-              ));
+          builder: (context) =>
+          const Center(
+            child: Text(
+              "这是设置",
+              textDirection: TextDirection.ltr,
+            ),
+          ));
     }
     Navigator.of(context).push(route);
   }

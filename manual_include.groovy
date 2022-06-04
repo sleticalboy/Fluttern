@@ -1,21 +1,20 @@
-
 Properties loadLocalProperties() {
-    File localPropertiesFile = new File(rootProject.rootDir, "local.properties")
-    Properties props = new Properties()
-    localPropertiesFile.withReader("UTF-8") { reader -> props.load(reader) }
-    return props
+  File localPropertiesFile = new File(rootProject.rootDir, "local.properties")
+  Properties props = new Properties()
+  localPropertiesFile.withReader("UTF-8") { reader -> props.load(reader) }
+  return props
 }
 
 // 获取 flutter engine 版本号
 String getEngineVersion() {
-    // 1. 加载 local.properties 文件
-    Properties props = loadLocalProperties()
-    // 2. 获取 flutter sdk 路径
-    String flutterRoot = props.getProperty('flutter.sdk')
-    assert flutterRoot != null, "flutter.sdk not set in local.properties"
-    assert new File(flutterRoot).exists(), "please install flutter sdk first"
-    // 3. 读取版本号
-    return new File(flutterRoot, "bin/internal/engine.version").text.trim()
+  // 1. 加载 local.properties 文件
+  Properties props = loadLocalProperties()
+  // 2. 获取 flutter sdk 路径
+  String flutterRoot = props.getProperty('flutter.sdk')
+  assert flutterRoot != null, "flutter.sdk not set in local.properties"
+  assert new File(flutterRoot).exists(), "please install flutter sdk first"
+  // 3. 读取版本号
+  return new File(flutterRoot, "bin/internal/engine.version").text.trim()
 }
 
 final String baseVersion = '1.0.0'

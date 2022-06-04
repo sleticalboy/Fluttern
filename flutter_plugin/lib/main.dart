@@ -40,6 +40,7 @@ class RandomWordList extends StatefulWidget {
 
 class _RandomWordList extends State<RandomWordList> {
   final _suggestions = <WordPair>[];
+
   // 选中的 item
   final _saved = <WordPair>{};
   final _biggerFont = const TextStyle(fontSize: 18.0);
@@ -109,7 +110,7 @@ class _RandomWordList extends State<RandomWordList> {
             );
           });
           final divided =
-              ListTile.divideTiles(tiles: tiles, context: context).toList();
+          ListTile.divideTiles(tiles: tiles, context: context).toList();
           return Scaffold(
             appBar: AppBar(
               title: const Text('Saved Suggestions'),
